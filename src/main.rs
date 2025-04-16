@@ -16,16 +16,11 @@ fn convert_objid_dotted_decimal_to_hex(dotted: &str) -> String {
 
     let mut hex = String::new();
     for (i, part) in parts.iter().enumerate() {
-        // u64::MAX is 20 digits long: 18446744073709551615
-        if part.len() > 19 {
-            println!("Unhandled part: {part}");
-            continue;
-        }
-        let value = part.parse::<u64>().unwrap();
+        let value = part.parse::<u128>().unwrap();
         if i == 0 {
             // Skip
         } else if i == 1 {
-            let part0 = parts[0].parse::<u64>().unwrap();
+            let part0 = parts[0].parse::<u128>().unwrap();
             hex.push_str(&format!("{:02x}", part0 * 40 + value));
         } else {
             if value < 128 {
@@ -67,8 +62,10 @@ fn main() {
         dotted_decimal_engine_id = incoming.to_string();
         // convert dotted decimal engine id to hex encoded engine id
         hex_engine_id = convert_objid_dotted_decimal_to_hex(&dotted_decimal_engine_id);
-        // let decimal_serial_number = parts.last();
-        //let serial_number = format!("{:x}", decimal_serial_number);
+        // convert dotted decimal engine id to hex encoded serial number
+        let parts: Vec<&str> = dotted_decimal_engine_id.split('.').collect();
+        let decimal_serial_number = parts.last().unwrap().parse::<u128>().unwrap();
+        serial_number = format!("{:024x}", decimal_serial_number);
     // If the incoming string is 24 bytes long, it is a hex encoded serial number
     } else if incoming.len() == 24 {
         serial_number = incoming.to_string();
