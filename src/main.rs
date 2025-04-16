@@ -108,9 +108,9 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let incoming = &args[1];
 
-    let mut hex_engine_id = String::new();
+    let hex_engine_id;
     let mut dotted_decimal_engine_id = String::new();
-    let mut serial_number = String::new();
+    let serial_number;
     // If the incoming string has a dot in it, it is a dotted decimal engine id
     if incoming.contains('.') {
         dotted_decimal_engine_id = incoming.to_string();
