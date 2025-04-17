@@ -106,6 +106,10 @@ fn main() {
 
     // Given a command line parameters in one of the three formats, print all three formats
     let args: Vec<String> = env::args().collect();
+    if args.len() != 2 {
+        println!("Usage: {} <engine id | serial number | dotted decimal engine id>", args[0]);
+        return;
+    }
     let incoming = &args[1];
 
     let hex_engine_id;
