@@ -3,16 +3,13 @@ use std::env;
 // Tool to convert between serial number and engine id formats
 
 /*
-- hex encoded engine id: `1B2B0601040181E438010103050F8C9088CDA2A9C8B28180E8CFFF7F` (technically the first byte is the length)
+- hex encoded engine id: `2B0601040181E438010103050F8C9088CDA2A9C8B28180E8CFFF7F`
 - dotted decimal engine id: `1.3.6.1.4.1.29240.1.1.3.5.15.30021346100634644478317297663`
 - hex encoded serial number: `610113512990C8080D13FFFF`
 */
 
 fn convert_objid_hex_to_dotted_decimal(hex: &str) -> String {
-    let mut hex = hex.to_string();
-    // Remove the first byte (length)
-    hex.remove(0);
-    hex.remove(0);
+    let hex = hex.to_string();
 
     let mut dotted = String::new();
     let mut i = 0;
@@ -93,8 +90,6 @@ fn convert_objid_dotted_decimal_to_hex(dotted: &str) -> String {
             }
         }
     }
-    let length = format!("{:02x}", hex.len() / 2);
-    hex.insert_str(0, &length);
 
     return hex;
 }
